@@ -95,14 +95,14 @@ class MultiheadAttention(Module):
 
     def split_heads(self, inputs: Tensor) -> Tensor:
         results = (
-            inputs.view(inputs.shape[0], inputs.shape[1], self.num_heads, -1)
-            .transpose(1, 2)
-            .contiguous()
+            inputs.contiguous()
+            .view(inputs.shape[0], inputs.shape[1], self.num_heads, -1)
+            .transpose(-2, -3)
         )
         return results
 
     def merge_heads(self, inputs: Tensor) -> Tensor:
-        results = inputs.transpose(1, 2).view(inputs.shape[0], inputs.shape[1], -1)
+        results = inputs.transpose(-2, -3).flatten(-2)
         return results
 
     def forward(
@@ -157,8 +157,10 @@ class RelativePositionEmbedding(Module):
     def forward(self, inputs: Tensor) -> Tensor:
         position_ids = torch.linspace(
             -1, 1, inputs.shape[-2], device=inputs.device, dtype=inputs.dtype
-        )
+        ).view(1, -1, 1)
         position_embeds = self.proj(position_ids)
+        position_embeds = position_embeds.expand_as(inputs) + inputs
+        position_embeds = self.norm(position_embeds)
         return position_embeds
 
 
@@ -259,6 +261,7 @@ class VisionTransformer(Module):
         position_embedding_type: Literal["absolute", "relative"] = "relative",
         position_embedding_max_length: int = 10000,
     ):
+        super().__init__()
         self.patch_embedding = PatchEmbedding2d(
             in_channels, hidden_size, patch_size, norm
         )
