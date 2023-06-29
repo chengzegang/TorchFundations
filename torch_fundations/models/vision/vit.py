@@ -301,7 +301,3 @@ class VisionTransformer(Module):
         hidden_states = self.position_embedding(hidden_states)
         hidden_states = self.transformer(hidden_states, conditions, attention_masks)
         return hidden_states
-
-
-class VisionTransformerConfig(metaclass=Available, target=VisionTransformer):
-    ...

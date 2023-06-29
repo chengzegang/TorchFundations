@@ -1,6 +1,6 @@
-from .tasks.vision import reconstruction
+from .tasks.vision import pixel_reconstruction
 from typer import Typer
 
-app = Typer()
-app.add_typer(reconstruction.app, name="reconstruction")
+app = Typer(pretty_exceptions_enable=False)
+app.add_typer(pixel_reconstruction.app, name="pixel-reconstruction")
 app()

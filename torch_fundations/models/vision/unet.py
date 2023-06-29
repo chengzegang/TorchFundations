@@ -250,7 +250,3 @@ class UNet(Module):
         hidden_states = self.encoder(priors)
         results = self.decoder(hidden_states)
         return results
-
-
-class UNetConfig(metaclass=Available, target=UNet):
-    ...
