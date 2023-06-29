@@ -12,6 +12,8 @@ from torch import Tensor
 from typing import Any, List, Tuple, Union, Optional, Literal, Callable, Type, Dict
 import torch.nn.functional as F
 
+from ...meta import Available
+
 
 class ScaleConv2d(Module):
     def __init__(
@@ -248,3 +250,7 @@ class UNet(Module):
         hidden_states = self.encoder(priors)
         results = self.decoder(hidden_states)
         return results
+
+
+class UNetConfig(metaclass=Available, target=UNet):
+    ...

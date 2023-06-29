@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from torch.nn import (
     Module,
     ModuleList,
@@ -16,6 +17,8 @@ import torch
 from torch import Tensor
 from typing import Any, List, Tuple, Union, Optional, Literal, Callable, Type, Dict
 import torch.nn.functional as F
+
+from ...meta import Available
 
 
 class Zeros(Module):
@@ -241,12 +244,12 @@ class Transformer(Module):
 class VisionTransformer(Module):
     def __init__(
         self,
-        in_channels: int,
-        patch_size: int,
-        hidden_size: int,
-        feedforward_size: int,
-        num_heads: int,
-        num_layers: int,
+        in_channels: int = 3,
+        patch_size: int = 16,
+        hidden_size: int = 768,
+        feedforward_size: int = 3072,
+        num_heads: int = 12,
+        num_layers: int = 12,
         dropout: float = 0.1,
         activation: Module | Callable = F.gelu,
         norm: Type[Module] = LayerNorm,
@@ -298,3 +301,7 @@ class VisionTransformer(Module):
         hidden_states = self.position_embedding(hidden_states)
         hidden_states = self.transformer(hidden_states, conditions, attention_masks)
         return hidden_states
+
+
+class VisionTransformerConfig(metaclass=Available, target=VisionTransformer):
+    ...

@@ -32,3 +32,18 @@ Source = "https://github.com/chengzegang/TorchFundations"
 
 [tool.hatch.version]
 path = "torch_fundations/__about__.py"
+
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = false
+warn_unused_configs = true
+allow_redefinition = false
+[[tool.mypy.overrides]]
+module = [
+    "torch.*",
+    "torchvision.*",
+    "matplotlib.*",
+    "torchdata.*"
+]
+ignore_missing_imports = true
