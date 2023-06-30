@@ -3,20 +3,20 @@ name: example
 root_log_dir: logs/tasks/autoencoder
 model_conf_path: configs/autoencoder.yml
 lr: 0.0001
-num_workers: 0
+num_workers: 16
 weight_decay: 0.000001
 betas:
   - 0.9
   - 0.96
-warmup_epochs: 1
+warmup_epochs: 20
 shift_epoch: 0
 epoch: 0
 total_epochs: 100
-samples_per_epoch: 100000
+samples_per_epoch: 1000000
 silent: false
 device: cuda
 amp: true
-root: data/imagenet
+root: /imagenet21k_resized/imagenet21k_train/
 exts: 
   - .JPEG
 recursive: true
