@@ -1,0 +1,51 @@
+task: autoencoder
+name: example
+root_log_dir: logs/tasks/autoencoder
+model_conf_path: configs/autoencoder.yml
+lr: 0.0001
+num_workers: 0
+weight_decay: 0.000001
+betas:
+  - 0.9
+  - 0.96
+warmup_epochs: 1
+shift_epoch: 0
+epoch: 0
+total_epochs: 100
+samples_per_epoch: 100000
+silent: false
+device: cuda
+amp: true
+root: data/imagenet
+exts: 
+  - .JPEG
+recursive: true
+absolute_path: true
+shuffle: true
+size: 
+  - 256
+  - 256
+batch_size: 32
+transform_conf_path: null
+log_frequency: 10
+
+
+model: VisionTransformer
+in_channels: 3
+patch_size: 16
+hidden_size: 768
+feedforward_size: 3072
+num_heads: 12
+num_layers: 24
+dropout: 0.1
+query_proj: true
+key_proj: true
+value_proj: true
+query_bias: true
+key_bias: true
+value_bias: true
+attention_residual_connection: true
+attention_residual_connection_type: linear
+position_embedding_type: relative
+position_embedding_max_length: 10000
+
